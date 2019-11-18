@@ -1,0 +1,89 @@
+
+
+spring:
+  datasource:
+    druid:
+      # ���ݿ��������, ʹ��druid����Դ
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1/test?createDatabaseIfNotExist=true&characterEncoding=utf-8&useUnicode=true
+      username: root
+      password: 123456
+      # ���ӳ�����
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      # ���ӵȴ���ʱʱ��
+      max-wait: 30000
+      # ���ü����ԹرյĿ������Ӽ��ʱ��
+      time-between-eviction-runs-millis: 60000
+      # ���������ڳ��е���С����ʱ��
+      min-evictable-idle-time-millis: 300000
+      validation-query: select '1' from dual
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # ��PSCache������ָ��ÿ��������PSCache�Ĵ�С
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      max-pool-prepared-statement-per-connection-size: 20
+      # ���ü��ͳ�����ص�filters, ȥ�����ؽ���sql�޷�ͳ��, 'wall'���ڷ���ǽ
+      filters: stat,wall
+      # Spring���AOP����㣬��x.y.z.service.*,���ö��Ӣ�Ķ��ŷָ�
+      aop-patterns: com.mybatis.mybatistest.service.*
+      # WebStatFilter����
+      web-stat-filter:
+        enabled: true
+        # ��ӹ��˹���
+        url-pattern: /*
+        # ���Թ��˵ĸ�ʽ
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+      # StatViewServlet����
+      stat-view-servlet:
+        enabled: true
+        # ����·��Ϊ/druidʱ����ת��StatViewServlet
+        url-pattern: /druid/*
+        # �Ƿ��ܹ���������
+        reset-enable: false
+        # ��Ҫ�˺�������ܷ��ʿ���̨
+        login-username: druid
+        login-password: druid123
+        # IP������
+        # allow: 127.0.0.1
+        #��IP����������ͬ����ʱ��deny������allow��
+        # deny: 192.168.1.218
+      # ����StatFilter
+      filter:
+        stat:
+          log-slow-sql: true
+
+mybatis:
+  # type-aliasesɨ��·��
+  type-aliases-package: com.mybatis.mybatistest.bean
+  # mapper xmlʵ��ɨ��·��
+  mapper-locations: classpath:mapper/*.xml
+  property:
+    order: BEFORE
+
+
+#mappers ����ӿ�ʱ���Ÿ���
+mapper:
+  mappers: com.mybatis.mybatistest.config.BaseConfigMapper
+  not-empty: false
+  identity: mysql
+
+
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+logging:
+  level:
+    com:
+      mybatis:
+        mybatistest:
+          mapper: debug
